@@ -1,9 +1,8 @@
-export interface News {
-  objectId?: string;
+export type NewsItem = {
+  objectId: string;
   title: string;
   content: string;
-  category: "promo" | "announcement" | "event";
-  imageUrl: string;
-  author: string;
-  createdAt?: string;
-}
+  thumbnail: string;
+  username: string;
+  created?: number;
+};

@@ -1,10 +1,15 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+html {
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
-  font-family: Manrope, sans-serif;
+  font-family:
+    Manrope,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
 }

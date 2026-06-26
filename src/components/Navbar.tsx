@@ -1,7 +1,9 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo2 from "../images/logo2.png";
 
 function Navbar() {
+  const navigate = useNavigate();
+
   const menus = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
@@ -9,6 +11,14 @@ function Navbar() {
     { name: "Coaches", path: "/coaches" },
     { name: "News", path: "/news" },
   ];
+
+  // cek status login
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <div className="navbar bg-white px-6 lg:px-10">
@@ -42,17 +52,26 @@ function Navbar() {
                 <NavLink to={item.path}>{item.name}</NavLink>
               </li>
             ))}
+
+            {/* Mobile auth button */}
+            <li className="mt-2">
+              {isLoggedIn ? (
+                <button onClick={handleLogout} className="text-red-500">
+                  Logout
+                </button>
+              ) : (
+                <NavLink to="/login">Login</NavLink>
+              )}
+            </li>
           </ul>
         </div>
 
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold tracking-tight text-black">
-          <div>
-            {" "}
-            <img src={logo2} alt="Life Pilates" className="h-20" />
-          </div>
+          <img src={logo2} alt="Life Pilates" className="h-20" />
         </Link>
       </div>
+
       {/* Desktop Menu */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-2 px-1">
@@ -75,30 +94,34 @@ function Navbar() {
           ))}
         </ul>
       </div>
+
       {/* CTA */}
       <div className="navbar-end flex items-center gap-3">
-        <Link
-          to="/login"
-          className="btn bg-transparent rounded-full border-black text-black       hover:bg-green-800
-hover:text-white hover:-translate-y-0.5 transition"
-        >
-          Log In
-        </Link>
+        {isLoggedIn ? (
+          <button
+            onClick={handleLogout}
+            className="btn bg-black text-white rounded-full hover:bg-green-800"
+          >
+            Logout
+          </button>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="btn bg-transparent rounded-full border-black text-black hover:bg-green-800 hover:text-white hover:-translate-y-0.5 transition"
+            >
+              Log In
+            </Link>
 
-        <Link
-          to="/classes"
-          className="
-      btn
-      rounded-full
-      bg-black
-      text-white
-      border-none
-      hover:bg-green-800
-    "
-        >
-          Book a Class
-        </Link>
-      </div>{" "}
+            <Link
+              to="/classes"
+              className="btn rounded-full bg-black text-white border-none hover:bg-green-800"
+            >
+              Book a Class
+            </Link>
+          </>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,9 +1,14 @@
 import pilates from "../images/pilates.jpeg";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+
 import { loginSchema, type LoginFormData } from "../schema/loginSchema";
+import { login } from "../services/auth";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,33 +23,45 @@ export default function Login() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      console.log(data);
+      const user = await login(data.email, data.password);
 
-      // nanti Backendless login di sini
-      // await Backendless.UserService.login(
-      //   data.email,
-      //   data.password,
-      //   true
-      // );
+      console.log("Logged in:", user);
 
-      alert("Login success");
-    } catch (error) {
+      localStorage.setItem("user", JSON.stringify(user));
+
+      navigate("/home");
+    } catch (error: any) {
       console.error(error);
-      alert("Login failed");
+
+      alert(error?.message || "Invalid email or password");
     }
   };
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center bg-black/5"
+      className="relative min-h-screen flex items-center justify-center bg-black/5 px-4 sm:px-0"
       style={{
         backgroundImage: `url(${pilates})`,
       }}
     >
       <div className="absolute inset-0 bg-white/10" />
 
-      <div className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-md rounded-3xl shadow-lg p-10">
-        <h1 className="text-4xl font-bold text-center mb-8 text-zinc-800">
+      <div
+        className="
+          relative z-10 w-full max-w-md
+          bg-white/90 backdrop-blur-md
+          rounded-3xl shadow-lg
+          p-6 sm:p-10
+        "
+      >
+        <h1
+          className="
+            text-3xl sm:text-4xl
+            font-bold text-center
+            mb-6 sm:mb-8
+            text-zinc-800
+          "
+        >
           Welcome Back
         </h1>
 
@@ -56,7 +73,14 @@ export default function Login() {
               type="email"
               placeholder="Enter your email"
               {...register("email")}
-              className="w-full mt-1 px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-black"
+              className="
+                w-full mt-1
+                px-3 sm:px-4
+                py-2.5 sm:py-3
+                rounded-xl
+                border border-zinc-200
+                focus:outline-none focus:ring-2 focus:ring-black
+              "
             />
 
             {errors.email && (
@@ -67,7 +91,7 @@ export default function Login() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-zinc-600 text-zinc-600">
+            <label className="text-sm font-medium text-zinc-600">
               Password
             </label>
 
@@ -75,7 +99,14 @@ export default function Login() {
               type="password"
               placeholder="Enter your password"
               {...register("password")}
-              className="w-full mt-1 px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-black"
+              className="
+                w-full mt-1
+                px-3 sm:px-4
+                py-2.5 sm:py-3
+                rounded-xl
+                border border-zinc-200
+                focus:outline-none focus:ring-2 focus:ring-black
+              "
             />
 
             {errors.password && (
@@ -107,7 +138,7 @@ export default function Login() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-zinc-600 mt-6">
+        <p className="text-center text-xs sm:text-sm text-zinc-600 mt-5 sm:mt-6">
           Don't have an account? Contact admin
         </p>
       </div>

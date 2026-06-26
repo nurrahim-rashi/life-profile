@@ -5,7 +5,7 @@ import About from "../pages/About";
 import Classes from "../pages/Classes";
 import Coaches from "../pages/Coaches";
 import News from "../pages/News";
-import CreateNews from "../pages/CreateNews";
+import HomeAuth from "../pages/HomeAuth";
 import Login from "../pages/Login";
 
 function AppRoutes() {
@@ -16,7 +16,7 @@ function AppRoutes() {
       <Route path="/classes" element={<Classes />} />
       <Route path="/coaches" element={<Coaches />} />
       <Route path="/news" element={<News />} />
-      <Route path="/news/create" element={<CreateNews />} />
+      <Route path="/home" element={<HomeAuth />} />
       <Route path="/login" element={<Login />} />
     </Routes>
   );
