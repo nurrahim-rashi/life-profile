@@ -1,6 +1,39 @@
 import pilates from "../images/pilates.jpeg";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginFormData } from "../schema/loginSchema";
 
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      console.log(data);
+
+      // nanti Backendless login di sini
+      // await Backendless.UserService.login(
+      //   data.email,
+      //   data.password,
+      //   true
+      // );
+
+      alert("Login success");
+    } catch (error) {
+      console.error(error);
+      alert("Login failed");
+    }
+  };
+
   return (
     <section
       className="relative min-h-screen flex items-center justify-center bg-black/5"
@@ -10,38 +43,51 @@ export default function Login() {
     >
       <div className="absolute inset-0 bg-white/10" />
 
-      {/* login card */}
       <div className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-md rounded-3xl shadow-lg p-10">
-        {/* title */}
-        <h1 className="text-4xl font-bold text-center mb-8">Welcome Back</h1>
+        <h1 className="text-4xl font-bold text-center mb-8 text-zinc-800">
+          Welcome Back
+        </h1>
 
-        {/* subtitle */}
-
-        {/* form */}
-        <form className="space-y-4">
-          {/* email */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="text-sm font-medium">Email</label>
+            <label className="text-sm font-medium text-zinc-600">Email</label>
+
             <input
               type="email"
               placeholder="Enter your email"
+              {...register("email")}
               className="w-full mt-1 px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-black"
             />
+
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
-          {/* password */}
           <div>
-            <label className="text-sm font-medium">Password</label>
+            <label className="text-sm font-medium text-zinc-600 text-zinc-600">
+              Password
+            </label>
+
             <input
               type="password"
               placeholder="Enter your password"
+              {...register("password")}
               className="w-full mt-1 px-4 py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-black"
             />
+
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
-          {/* button */}
           <button
             type="submit"
+            disabled={isSubmitting}
             className="
               w-full
               bg-black
@@ -54,14 +100,14 @@ export default function Login() {
               hover:bg-zinc-800
               hover:-translate-y-0.5
               mt-4
+              disabled:opacity-50
             "
           >
-            Log In
+            {isSubmitting ? "Logging In..." : "Log In"}
           </button>
         </form>
 
-        {/* footer text */}
-        <p className="text-center text-sm text-zinc-500 mt-6">
+        <p className="text-center text-sm text-zinc-600 mt-6">
           Don't have an account? Contact admin
         </p>
       </div>

@@ -38,22 +38,6 @@ const Youtube = ({ size = 20, ...props }: IconProps) => (
   </svg>
 );
 
-const Facebook = ({ size = 20, ...props }: IconProps) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <path d="M18 2h-3a4 4 0 0 0-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h3z" />
-  </svg>
-);
-
 function Footer() {
   return (
     <footer className=" border-t border-zinc-200 bg-white">
