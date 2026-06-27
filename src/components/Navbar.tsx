@@ -76,7 +76,7 @@ function Navbar() {
 
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-white rounded-box z-50 mt-3 w-52 p-2 shadow-lg"
+            className="menu menu-sm dropdown-content bg-white rounded-box z-50 mt-3 w-52 p-2 shadow-lg text-zinc-800"
           >
             {menus.map((item) => (
               <li key={item.path}>
@@ -97,7 +97,7 @@ function Navbar() {
         {/* LOGO */}
         <Link
           to={isLoggedIn ? "/home" : "/"}
-          className="text-2xl font-bold tracking-tight text-black"
+          className="text-2xl font-bold tracking-tight text-zinc-800"
         >
           <img src={logo2} alt="Life Pilates" className="h-20" />
         </Link>
@@ -132,7 +132,7 @@ function Navbar() {
           <>
             <button
               onClick={handleLogout}
-              className="btn bg-transparent rounded-full border-black text-black hover:bg-red-800 hover:text-white hover:-translate-y-0.5 transition"
+              className="btn bg-transparent rounded-full border-black text-zinc-800 hover:bg-red-800 hover:text-white hover:-translate-y-0.5 transition"
             >
               Log Out
             </button>
@@ -148,7 +148,7 @@ function Navbar() {
           <>
             <Link
               to="/login"
-              className="btn bg-transparent rounded-full border-black text-black hover:bg-green-800 hover:text-white hover:-translate-y-0.5 transition"
+              className="btn bg-transparent rounded-full border-black text-zinc-800 hover:bg-green-800 hover:text-white hover:-translate-y-0.5 transition"
             >
               Log In
             </Link>
