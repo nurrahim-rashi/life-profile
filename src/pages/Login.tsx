@@ -27,12 +27,17 @@ export default function Login() {
 
       console.log("Logged in:", user);
 
+      // ================= SAFE STORAGE =================
       localStorage.setItem("user", JSON.stringify(user));
 
-      // 🔥 IMPORTANT INI
-      localStorage.setItem("token", user["user-token"] || "true");
+      // 🔥 Backendless TS SAFE ACCESS (fix error "user-token")
+      const token =
+        (user as any)["user-token"] ?? (user as any).userToken ?? "true";
 
-      navigate("/home");
+      localStorage.setItem("token", token);
+
+      // ================= NAVIGATE =================
+      navigate("/home", { replace: true });
     } catch (error: any) {
       console.error(error);
       alert(error?.message || "Invalid email or password");
@@ -48,22 +53,8 @@ export default function Login() {
     >
       <div className="absolute inset-0 bg-white/10" />
 
-      <div
-        className="
-          relative z-10 w-full max-w-md
-          bg-white/90 backdrop-blur-md
-          rounded-3xl shadow-lg
-          p-6 sm:p-10
-        "
-      >
-        <h1
-          className="
-            text-3xl sm:text-4xl
-            font-bold text-center
-            mb-6 sm:mb-8
-            text-zinc-800
-          "
-        >
+      <div className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-md rounded-3xl shadow-lg p-6 sm:p-10">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 sm:mb-8 text-zinc-800">
           Welcome Back
         </h1>
 
@@ -75,14 +66,7 @@ export default function Login() {
               type="email"
               placeholder="Enter your email"
               {...register("email")}
-              className="
-                w-full mt-1
-                px-3 sm:px-4
-                py-2.5 sm:py-3
-                rounded-xl
-                border border-zinc-200
-                focus:outline-none focus:ring-2 focus:ring-black text-zinc-800
-              "
+              className="w-full mt-1 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-black text-zinc-800"
             />
 
             {errors.email && (
@@ -101,14 +85,7 @@ export default function Login() {
               type="password"
               placeholder="Enter your password"
               {...register("password")}
-              className="
-                w-full mt-1
-                px-3 sm:px-4
-                py-2.5 sm:py-3
-                rounded-xl
-                border border-zinc-200
-                focus:outline-none focus:ring-2 focus:ring-black text-zinc-800
-              "
+              className="w-full mt-1 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-black text-zinc-800"
             />
 
             {errors.password && (
@@ -121,20 +98,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="
-              w-full
-              bg-black
-              text-white
-              px-6 py-3
-              rounded-full
-              font-medium
-              transition-all
-              duration-300
-              hover:bg-zinc-800
-              hover:-translate-y-0.5
-              mt-4
-              disabled:opacity-50
-            "
+            className="w-full bg-black text-white px-6 py-3 rounded-full font-medium transition-all duration-300 hover:bg-zinc-800 hover:-translate-y-0.5 mt-4 disabled:opacity-50"
           >
             {isSubmitting ? "Logging In..." : "Log In"}
           </button>

@@ -25,7 +25,6 @@ export default function HomeAuth() {
     const fetchUser = async () => {
       try {
         const currentUser = await Backendless.UserService.getCurrentUser();
-
         setUser(currentUser || null);
       } catch (err) {
         console.error("Failed to fetch user:", err);
@@ -35,15 +34,23 @@ export default function HomeAuth() {
     fetchUser();
   }, []);
 
+  // ================= CREATE NEWS =================
   const handleCreateNews = async () => {
+    if (!user?.userId) return;
+
     await createNews({
       title,
       content,
       thumbnail,
-      userId: user?.userId,
+      userId: user.userId,
     });
 
     await refreshNews();
+
+    // optional UX clean reset
+    setTitle("");
+    setThumbnail("");
+    setContent("");
   };
 
   return (

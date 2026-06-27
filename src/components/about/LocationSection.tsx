@@ -1,7 +1,7 @@
 import { location } from "../../services/location";
 import LocationCard from "./LocationCard";
 
-export default function LocationsSection() {
+export default function LocationSection() {
   return (
     <section className="mb-24">
       <h2 className="text-3xl font-semibold text-center mb-12 text-zinc-800">

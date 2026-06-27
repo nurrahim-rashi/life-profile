@@ -1,5 +1,5 @@
-import StorySection from "../components/About/StorySection";
-import LocationsSection from "../components/About/LocationSection";
+import StorySection from "../components/about/StorySection";
+import LocationSection from "../components/about/LocationSection";
 
 export default function About() {
   return (
@@ -11,7 +11,7 @@ export default function About() {
 
         <StorySection />
 
-        <LocationsSection />
+        <LocationSection />
       </div>
     </section>
   );
