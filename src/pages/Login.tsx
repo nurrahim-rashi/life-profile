@@ -29,10 +29,12 @@ export default function Login() {
 
       localStorage.setItem("user", JSON.stringify(user));
 
+      // 🔥 IMPORTANT INI
+      localStorage.setItem("token", user["user-token"] || "true");
+
       navigate("/home");
     } catch (error: any) {
       console.error(error);
-
       alert(error?.message || "Invalid email or password");
     }
   };
@@ -79,7 +81,7 @@ export default function Login() {
                 py-2.5 sm:py-3
                 rounded-xl
                 border border-zinc-200
-                focus:outline-none focus:ring-2 focus:ring-black
+                focus:outline-none focus:ring-2 focus:ring-black text-zinc-800
               "
             />
 
@@ -105,7 +107,7 @@ export default function Login() {
                 py-2.5 sm:py-3
                 rounded-xl
                 border border-zinc-200
-                focus:outline-none focus:ring-2 focus:ring-black
+                focus:outline-none focus:ring-2 focus:ring-black text-zinc-800
               "
             />
 

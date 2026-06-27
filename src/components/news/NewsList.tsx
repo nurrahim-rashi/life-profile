@@ -1,4 +1,4 @@
-import type { NewsItem } from "../types/news";
+import type { NewsItem } from "../../types/newsItem";
 
 type Props = {
   news: NewsItem[];
@@ -31,7 +31,7 @@ export default function NewsList({ news, loading }: Props) {
 
           <div className="p-8">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-zinc-600">by {item.username}</span>
+              <span className="text-sm text-zinc-600">by {item.userId}</span>
             </div>
 
             <h2 className="text-3xl font-bold text-zinc-900 mb-4">

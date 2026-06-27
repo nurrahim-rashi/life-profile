@@ -1,30 +1,57 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import Backendless from "../lib/backendless";
 import logo2 from "../images/logo2.png";
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const menus = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Classes", path: "/classes" },
-    { name: "Coaches", path: "/coaches" },
-    { name: "News", path: "/news" },
-  ];
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // cek status login
-  const isLoggedIn = !!localStorage.getItem("token");
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+  const checkAuth = async () => {
+    try {
+      const user = await Backendless.UserService.getCurrentUser();
+      setIsLoggedIn(!!user);
+    } catch {
+      setIsLoggedIn(false);
+    }
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, [location.pathname]);
+
+  const handleLogout = async () => {
+    try {
+      await Backendless.UserService.logout();
+    } catch (err) {
+      console.error(err);
+    }
+
+    localStorage.clear();
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
+  const menus = isLoggedIn
+    ? [
+        { name: "Home", path: "/home" },
+        { name: "Classes", path: "/classes" },
+        { name: "Coaches", path: "/coaches" },
+      ]
+    : [
+        { name: "About", path: "/about" },
+        { name: "Classes", path: "/classes" },
+        { name: "Coaches", path: "/coaches" },
+        { name: "News", path: "/news" },
+      ];
 
   return (
     <div className="navbar bg-white px-6 lg:px-10">
-      {/* Left */}
+      {/* LEFT */}
       <div className="navbar-start">
-        {/* Mobile Menu */}
+        {/* MOBILE */}
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
@@ -53,26 +80,26 @@ function Navbar() {
               </li>
             ))}
 
-            {/* Mobile auth button */}
             <li className="mt-2">
               {isLoggedIn ? (
-                <button onClick={handleLogout} className="text-red-500">
-                  Logout
-                </button>
+                <button onClick={handleLogout}>Log Out</button>
               ) : (
-                <NavLink to="/login">Login</NavLink>
+                <NavLink to="/login">Log In</NavLink>
               )}
             </li>
           </ul>
         </div>
 
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold tracking-tight text-black">
+        {/* LOGO */}
+        <Link
+          to={isLoggedIn ? "/home" : "/"}
+          className="text-2xl font-bold tracking-tight text-black"
+        >
           <img src={logo2} alt="Life Pilates" className="h-20" />
         </Link>
       </div>
 
-      {/* Desktop Menu */}
+      {/* CENTER */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-2 px-1">
           {menus.map((item) => (
@@ -95,15 +122,24 @@ function Navbar() {
         </ul>
       </div>
 
-      {/* CTA */}
+      {/* RIGHT */}
       <div className="navbar-end flex items-center gap-3">
         {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className="btn bg-black text-white rounded-full hover:bg-green-800"
-          >
-            Logout
-          </button>
+          <>
+            <button
+              onClick={handleLogout}
+              className="btn bg-transparent rounded-full border-black text-black hover:bg-red-800 hover:text-white hover:-translate-y-0.5 transition"
+            >
+              Log Out
+            </button>
+
+            <Link
+              to="/classes"
+              className="btn rounded-full bg-black text-white border-none hover:bg-green-800"
+            >
+              Book a Class
+            </Link>
+          </>
         ) : (
           <>
             <Link

@@ -1,17 +1,19 @@
 import Backendless from "../lib/backendless";
+import type { NewsItem } from "../types/newsItem";
 
-export interface NewsItem {
-  objectId?: string;
-  title: string;
-  content: string;
-  imageUrl: string;
-  author: string;
-}
+export const getNews = async (): Promise<NewsItem[]> => {
+  const result = await Backendless.Data.of("News").find();
 
-export const createNews = async (news: NewsItem) => {
-  return await Backendless.Data.of("News").save(news);
+  return [...result].sort(
+    (a: any, b: any) => (b.created || 0) - (a.created || 0),
+  ) as NewsItem[];
 };
 
-export const getNews = async () => {
-  return await Backendless.Data.of("News").find();
+export const createNews = async (payload: {
+  title: string;
+  content: string;
+  thumbnail: string;
+  userId: string;
+}) => {
+  return await Backendless.Data.of("News").save(payload);
 };

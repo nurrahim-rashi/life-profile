@@ -1,8 +1,8 @@
-export type NewsItem = {
+export interface NewsItem {
   objectId: string;
   title: string;
   content: string;
   thumbnail: string;
-  username: string;
+  userId: string;
   created?: number;
-};
+}

@@ -1,7 +1,9 @@
 export interface Class {
-  id?: string;
-  title: string;
-  level: "Beginner" | "Intermediate" | "Advanced";
-  duration: number;
-  description: string;
+  objectId: string;
+  userId: string;
+  branch: string;
+  classDate: string;
+  duration?: number;
+  level: string;
+  type: string;
 }

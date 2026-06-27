@@ -8,16 +8,38 @@ import News from "../pages/News";
 import HomeAuth from "../pages/HomeAuth";
 import Login from "../pages/Login";
 
+import ProtectedRoute from "./ProtectedRoute";
+import PublicOnlyRoute from "./PublicOnlyRoute";
+
 function AppRoutes() {
   return (
     <Routes>
+      {/* Public */}
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/classes" element={<Classes />} />
       <Route path="/coaches" element={<Coaches />} />
       <Route path="/news" element={<News />} />
-      <Route path="/home" element={<HomeAuth />} />
-      <Route path="/login" element={<Login />} />
+
+      {/* Private */}
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <HomeAuth />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Login Only */}
+      <Route
+        path="/login"
+        element={
+          <PublicOnlyRoute>
+            <Login />
+          </PublicOnlyRoute>
+        }
+      />
     </Routes>
   );
 }
