@@ -83,14 +83,6 @@ function Navbar() {
                 <NavLink to={item.path}>{item.name}</NavLink>
               </li>
             ))}
-
-            <li className="mt-2">
-              {isLoggedIn ? (
-                <button onClick={handleLogout}>Log Out</button>
-              ) : (
-                <NavLink to="/login">Log In</NavLink>
-              )}
-            </li>
           </ul>
         </div>
 
