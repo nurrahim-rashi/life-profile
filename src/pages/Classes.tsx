@@ -1,24 +1,17 @@
 import { useMemo, useState } from "react";
 
-import type { Class } from "../types/class";
 import { useClasses } from "../hooks/useClass";
 
 import ClassFilters from "../components/classes/ClassFilters";
 import ClassList from "../components/classes/ClassList";
-import BookingModal from "../components/classes/BookingModal";
 import PrivateSession from "../components/classes/PrivateSession";
 import ClassPopularityChart from "../components/classes/Chart";
 
 export default function Classes() {
   const { classes, loading } = useClasses();
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [selectedClass, setSelectedClass] = useState<Class | null>(null);
   const [selectedBranch, setSelectedBranch] = useState("");
   const [filterTypes, setFilterTypes] = useState<string[]>([]);
   const [date, setDate] = useState("Pick a date");
-
-  const [isMember, setIsMember] = useState(true);
-  const [memberCode, setMemberCode] = useState("");
 
   const toggleType = (type: string) => {
     setFilterTypes((prev) =>

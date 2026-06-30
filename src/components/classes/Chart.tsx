@@ -1,14 +1,6 @@
-import * as React from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, Tooltip } from "recharts";
 
 import { ChartContainer, ChartTooltipContent } from "../ui/chart";
-
-import {
-  Tooltip as TooltipPrimitive,
-  TooltipProvider,
-  TooltipTrigger,
-  TooltipContent,
-} from "../ui/tooltip";
 
 const chartData = [
   { class: "Reformer", bookings: 96 },
