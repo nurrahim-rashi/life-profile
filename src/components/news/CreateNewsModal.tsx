@@ -1,4 +1,10 @@
+import { Dialog, DialogContent, DialogCancel } from "../ui/alert-dialog";
+import { Button } from "../ui/button";
+
 type Props = {
+  open: boolean;
+  setOpen: (value: boolean) => void;
+
   title: string;
   setTitle: (value: string) => void;
 
@@ -12,89 +18,84 @@ type Props = {
 };
 
 export default function CreateNewsModal({
-  title,
+  open,
+  setOpen,
+  title = "",
   setTitle,
-  thumbnail,
+  thumbnail = "",
   setThumbnail,
-  content,
+  content = "",
   setContent,
   onSubmit,
 }: Props) {
-  const handleSubmit = async () => {
-    try {
-      await onSubmit();
-
-      // reset form kalau sukses
-      setTitle("");
-      setThumbnail("");
-      setContent("");
-
-      // close modal
-      const modal = document.getElementById(
-        "create_news_modal",
-      ) as HTMLDialogElement | null;
-
-      modal?.close();
-    } catch (err: any) {
-      // 🔥 error message jelas, gak kosong
-      const message =
-        err?.response?.data?.message ||
-        err?.message ||
-        "Failed to create news. Try again.";
-
-      alert(message);
-
-      console.error("CreateNews ERROR:", err);
-    }
-  };
-
   const isDisabled = !title.trim() || !thumbnail.trim() || !content.trim();
 
+  const handleSubmit = async () => {
+    if (isDisabled) return;
+
+    await onSubmit();
+
+    setTitle("");
+    setThumbnail("");
+    setContent("");
+
+    setOpen(false);
+  };
+
   return (
-    <dialog id="create_news_modal" className="modal">
-      <div className="modal-box max-w-2xl bg-white">
-        <h3 className="font-bold text-3xl mb-6 text-zinc-800">Create News</h3>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent
+        className="
+          fixed left-1/2 top-1/2 z-50
+          -translate-x-1/2 -translate-y-1/2
+          w-full max-w-lg
+          rounded-2xl bg-white p-6 shadow-xl
+          pointer-events-auto
+        "
+      >
+        <h2 className="text-2xl font-bold mb-6">Create News</h2>
 
         <div className="space-y-4">
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="News title"
-            className="input input-bordered w-full bg-white text-zinc-600"
+            placeholder="What's new in the Core community?"
+            className="input input-bordered w-full titlecase"
           />
-
           <input
             value={thumbnail}
             onChange={(e) => setThumbnail(e.target.value)}
-            placeholder="Thumbnail URL"
-            className="input input-bordered w-full bg-white text-zinc-600"
+            placeholder="Put your Thumbnail URL"
+            className="input input-bordered w-full"
           />
-
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            rows={8}
-            placeholder="Write content..."
-            className="textarea textarea-bordered w-full bg-white text-zinc-600"
+            rows={6}
+            placeholder="Share what happened!"
+            className="textarea textarea-bordered w-full"
           />
+          <div className="flex justify-end gap-3 pt-2">
+            <DialogCancel asChild>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="h-11 min-w-[120px] rounded-xl border border-zinc-300 px-6 font-medium transition hover:bg-zinc-100"
+              >
+                Cancel
+              </button>
+            </DialogCancel>
 
-          <button
-            onClick={handleSubmit}
-            disabled={isDisabled}
-            className={`w-full text-white py-4 rounded-full transition ${
-              isDisabled
-                ? "bg-zinc-400 cursor-not-allowed"
-                : "bg-black hover:bg-green-800"
-            }`}
-          >
-            Publish News
-          </button>
+            <Button
+              onClick={handleSubmit}
+              disabled={isDisabled}
+              className="h-11 min-w-[120px] rounded-xl"
+            >
+              Publish
+            </Button>
+          </div>{" "}
         </div>
-      </div>
-
-      <form method="dialog" className="modal-backdrop">
-        <button>close</button>
-      </form>
-    </dialog>
+      </DialogContent>
+    </Dialog>
   );
 }

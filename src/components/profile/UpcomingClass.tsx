@@ -117,15 +117,9 @@ export default function UpcomingClasses() {
         )}
 
         {!loading && bookings.length === 0 && (
-          <div className="text-center py-12">
-            <h3 className="text-xl font-semibold text-zinc-800">
-              No Upcoming Classes
-            </h3>
-
-            <p className="text-zinc-500 mt-2">
-              Book your next class to get started.
-            </p>
-          </div>
+          <h3 className="text-xl font-semibold text-zinc-500">
+            No Upcoming Classes
+          </h3>
         )}
 
         {!loading &&

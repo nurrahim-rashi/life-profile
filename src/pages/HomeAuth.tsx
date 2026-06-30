@@ -5,7 +5,6 @@ import type { User } from "../types/user";
 
 import PostBox from "../components/news/PostBox";
 import NewsList from "../components/news/NewsList";
-import CreateNewsModal from "../components/news/CreateNewsModal";
 import UpcomingClasses from "../components/profile/UpcomingClass";
 
 import { useNews } from "../hooks/useNews";
@@ -19,6 +18,8 @@ export default function HomeAuth() {
   const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [content, setContent] = useState("");
+
+  const [open, setOpen] = useState(false);
 
   // ================= USER =================
   useEffect(() => {
@@ -47,10 +48,13 @@ export default function HomeAuth() {
 
     await refreshNews();
 
-    // optional UX clean reset
+    // reset form
     setTitle("");
     setThumbnail("");
     setContent("");
+
+    // close modal
+    setOpen(false);
   };
 
   return (
@@ -60,13 +64,8 @@ export default function HomeAuth() {
         <UpcomingClasses />
 
         {/* POST BOX */}
-        <PostBox user={user} />
-
-        {/* NEWS LIST */}
-        <NewsList news={news} loading={loading} />
-
-        {/* MODAL */}
-        <CreateNewsModal
+        <PostBox
+          user={user}
           title={title}
           setTitle={setTitle}
           thumbnail={thumbnail}
@@ -75,6 +74,9 @@ export default function HomeAuth() {
           setContent={setContent}
           onSubmit={handleCreateNews}
         />
+
+        {/* NEWS LIST */}
+        <NewsList news={news} loading={loading} />
       </div>
     </section>
   );
