@@ -1,4 +1,12 @@
-import { useRef } from "react";
+"use client";
+
+import * as React from "react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { Calendar } from "../ui/calendar";
+import { Check } from "lucide-react";
+
+import { cn } from "../../lib/utils";
+import { Button } from "../ui/button";
 
 type Props = {
   date: string;
@@ -19,76 +27,93 @@ export default function ClassFilters({
   filterTypes,
   toggleType,
 }: Props) {
-  const popoverRef = useRef<HTMLDivElement | null>(null);
+  const [calendarOpen, setCalendarOpen] = React.useState(false);
 
-  const toggleCalendar = () => {
-    popoverRef.current?.classList.toggle("hidden");
-  };
+  const branches = ["Setrasari", "Lengkong", "Soekarno Hatta"];
+  const types = ["Reformer", "Chair", "Tower", "Mat", "Flexband"];
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDate(e.target.value || "Pick a date");
-    popoverRef.current?.classList.add("hidden");
-  };
+  const parsedDate = React.useMemo(() => {
+    if (!date || date === "Pick a date") return undefined;
+    const d = new Date(date);
+    return isNaN(d.getTime()) ? undefined : d;
+  }, [date]);
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-4">
-      {/* BRANCH */}
-      <div className="dropdown">
-        <div tabIndex={0} role="button" className="btn bg-white text-zinc-800">
-          {selectedBranch || "All Branches"}
-        </div>
+    <div className="flex flex-wrap items-center justify-between gap-4 relative">
+      {/* BRANCH DROPDOWN */}
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild>
+          <Button variant="outline" className="bg-white text-zinc-800">
+            {selectedBranch || "All Branches"}
+          </Button>
+        </DropdownMenu.Trigger>
 
-        <ul className="dropdown-content menu bg-white rounded-box z-[60] w-52 p-2 shadow text-zinc-600">
-          <li>
-            <button onClick={() => setSelectedBranch("")}>All Branches</button>
-          </li>
+        <DropdownMenu.Content
+          className="z-50 min-w-[180px] rounded-xl border bg-white p-2 shadow-lg"
+          sideOffset={6}
+        >
+          <DropdownMenu.Item
+            onClick={() => setSelectedBranch("")}
+            className="flex cursor-pointer items-center justify-between rounded-md px-3 py-2 text-sm hover:bg-zinc-100"
+          >
+            All Branches
+            {!selectedBranch && <Check className="h-4 w-4" />}
+          </DropdownMenu.Item>
 
-          {["Setrasari", "Lengkong", "Soekarno Hatta"].map((branch) => (
-            <li key={branch}>
-              <button onClick={() => setSelectedBranch(branch)}>
-                {branch}
-              </button>
-            </li>
+          {branches.map((branch) => (
+            <DropdownMenu.Item
+              key={branch}
+              onClick={() => setSelectedBranch(branch)}
+              className="flex cursor-pointer items-center justify-between rounded-md px-3 py-2 text-sm hover:bg-zinc-100"
+            >
+              {branch}
+              {selectedBranch === branch && <Check className="h-4 w-4" />}
+            </DropdownMenu.Item>
           ))}
-        </ul>
-      </div>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
 
       {/* TYPE FILTER */}
       <div className="flex flex-wrap gap-2">
-        {["Reformer", "Chair", "Tower", "Mat", "Flexband"].map((type) => (
-          <button
+        {types.map((type) => (
+          <Button
             key={type}
             type="button"
+            variant="outline"
             onClick={() => toggleType(type)}
-            className={`btn bg-white text-zinc-600 ${
-              filterTypes.includes(type) ? "border-black border-2" : ""
-            }`}
+            className={cn(
+              "bg-white text-zinc-600",
+              filterTypes.includes(type) && "border-black border-2",
+            )}
           >
             {type}
-          </button>
+          </Button>
         ))}
       </div>
 
       {/* DATE */}
-      <div className="relative">
-        <button
-          type="button"
-          className="btn bg-white text-zinc-600"
-          onClick={toggleCalendar}
+      <div className="relative w-full sm:w-auto">
+        <Button
+          variant="outline"
+          className="bg-white text-zinc-600 w-full sm:w-auto"
+          onClick={() => setCalendarOpen((v) => !v)}
         >
           {date}
-        </button>
+        </Button>
 
-        <div
-          ref={popoverRef}
-          className="hidden absolute right-0 mt-2 z-50 bg-white rounded-box shadow-lg p-3"
-        >
-          <input
-            type="date"
-            className="input input-bordered"
-            onChange={handleDateChange}
-          />
-        </div>
+        {calendarOpen && (
+          <div className="absolute left-0 sm:left-auto sm:right-0 mt-2 z-50 rounded-xl border bg-white shadow-lg p-3 w-[280px] max-w-[90vw]">
+            <Calendar
+              mode="single"
+              selected={parsedDate}
+              onSelect={(d) => {
+                if (!d) return;
+                setDate(d.toISOString().split("T")[0]);
+                setCalendarOpen(false);
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

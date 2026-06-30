@@ -1,6 +1,16 @@
+"use client";
+
+import * as React from "react";
 import type { Class } from "../../types/class";
 
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+
+import { Button } from "../ui/button";
+
 type Props = {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+
   selectedClass: Class | null;
 
   isMember: boolean;
@@ -11,6 +21,8 @@ type Props = {
 };
 
 export default function BookingModal({
+  open,
+  onOpenChange,
   selectedClass,
   isMember,
   setIsMember,
@@ -22,97 +34,78 @@ export default function BookingModal({
 
     alert(`Booked ${selectedClass.type} at ${selectedClass.branch}`);
 
-    (document.getElementById("booking_modal") as HTMLDialogElement)?.close();
+    onOpenChange(false); // ✅ FIX CLOSE MODAL
   };
 
   return (
-    <dialog id="booking_modal" className="modal">
-      <div className="modal-box max-w-xl bg-white text-zinc-600">
-        <h3 className="font-bold text-2xl mb-6 text-zinc-800">Book Class</h3>
+    <Popover open={open} onOpenChange={onOpenChange}>
+      <PopoverTrigger asChild>
+        <span />
+      </PopoverTrigger>
 
-        {/* CLASS */}
-        <input
-          value={selectedClass?.type || ""}
-          readOnly
-          className="input input-bordered w-full mb-3 bg-white"
-        />
+      <PopoverContent
+        className="w-[420px] p-6 rounded-xl border bg-white shadow-xl"
+        align="center"
+        sideOffset={10}
+      >
+        {/* INFO */}
+        <div className="space-y-3 text-sm text-zinc-600 mb-6">
+          <div>
+            <p className="text-xs text-zinc-400">Class</p>
+            <p className="font-medium">{selectedClass?.type}</p>
+          </div>
 
-        {/* BRANCH */}
-        <input
-          value={selectedClass?.branch || ""}
-          readOnly
-          className="input input-bordered w-full mb-3 bg-white"
-        />
+          <div>
+            <p className="text-xs text-zinc-400">Branch</p>
+            <p className="font-medium">{selectedClass?.branch}</p>
+          </div>
 
-        {/* DATETIME */}
-        <input
-          value={
-            selectedClass
-              ? new Date(selectedClass.classDate).toLocaleString()
-              : ""
-          }
-          readOnly
-          className="input input-bordered w-full mb-3 bg-white"
-        />
-
-        {/* LEVEL */}
-        <input
-          value={selectedClass?.level || ""}
-          readOnly
-          className="input input-bordered w-full mb-3 bg-white"
-        />
-
-        {/* DURATION */}
-        <input
-          value={`${selectedClass?.duration || 50} min`}
-          readOnly
-          className="input input-bordered w-full mb-3 bg-white"
-        />
-
-        {/* MEMBER SWITCH */}
-        <div className="flex gap-4 mb-4">
-          <button
-            type="button"
-            onClick={() => setIsMember(true)}
-            className={`btn flex-1 ${
-              isMember ? "bg-green-800 text-white" : ""
-            }`}
-          >
-            Member
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setIsMember(false)}
-            className={`btn flex-1 ${
-              !isMember ? "bg-green-800 text-white" : ""
-            }`}
-          >
-            Non-Member
-          </button>
+          <div>
+            <p className="text-xs text-zinc-400">Schedule</p>
+            <p className="font-medium">
+              {selectedClass
+                ? new Date(selectedClass.classDate).toLocaleString()
+                : "-"}
+            </p>
+          </div>
         </div>
 
-        {/* MEMBER CODE */}
+        {/* MEMBER TOGGLE */}
+        <div className="flex gap-2 mb-4">
+          <Button
+            type="button"
+            variant={isMember ? "default" : "outline"}
+            className="flex-1"
+            onClick={() => setIsMember(true)}
+          >
+            Member
+          </Button>
+
+          <Button
+            type="button"
+            variant={!isMember ? "default" : "outline"}
+            className="flex-1"
+            onClick={() => setIsMember(false)}
+          >
+            Non-Member
+          </Button>
+        </div>
+
+        {/* CODE */}
         {isMember && (
           <input
             value={memberCode}
             onChange={(e) => setMemberCode(e.target.value)}
-            placeholder="Enter member code"
-            className="input input-bordered w-full mb-4 bg-white"
+            placeholder="Member code"
+            className="w-full border rounded-md px-3 py-2 text-sm mb-4"
           />
         )}
 
-        <button
-          onClick={handleBooking}
-          className="w-full bg-black text-white py-3 rounded-full hover:bg-green-800 transition"
-        >
+        {/* ACTION */}
+        <Button className="w-full" onClick={handleBooking}>
           Confirm Booking
-        </button>
-      </div>
-
-      <form method="dialog" className="modal-backdrop">
-        <button>close</button>
-      </form>
-    </dialog>
+        </Button>
+      </PopoverContent>
+    </Popover>
   );
 }

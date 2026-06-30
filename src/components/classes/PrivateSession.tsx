@@ -1,18 +1,50 @@
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "../ui/card";
+
+import { Button } from "../ui/button";
+
 export default function PrivateSession() {
   return (
-    <div className="rounded-3xl shadow-md p-12 text-center mt-20 bg-white">
-      <h2 className="text-4xl font-bold mb-4 text-zinc-800">
-        Want to Book a Private Session?
-      </h2>
+    <Card className="group h-full rounded-3xl p-7 md:p-9 flex flex-col justify-between transition-all duration-500 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+      <CardHeader className="p-0">
+        <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          Premium Service
+        </span>
 
-      <p className="max-w-2xl mx-auto mb-8 text-zinc-600">
-        A private session helps you focus on your personal goals with full
-        attention.
-      </p>
+        <CardTitle className="font-serif text-4xl md:text-5xl leading-none mb-4">
+          Private Training Session
+        </CardTitle>
 
-      <button className="bg-black text-white px-8 py-3 rounded-full">
-        Book a Private Session
-      </button>
-    </div>
+        <CardDescription className="text-sm leading-relaxed text-muted-foreground max-w-md">
+          Fully personalized coaching designed around your body goals, movement
+          patterns, and performance needs — just you and your instructor.
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent className="flex-1" />
+
+      <CardFooter className="p-0 flex flex-col items-start gap-5">
+        <div className="flex flex-wrap gap-2">
+          {["1:1 Coaching", "Professional Certified Instructor"].map((tag) => (
+            <span
+              key={tag}
+              className="text-[10px]  tracking-wider px-2.5 py-1 rounded-full border border-current text-muted-foreground opacity-80"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <Button className="rounded-full px-8 py-6 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5">
+          Book Session
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }

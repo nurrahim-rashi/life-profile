@@ -5,7 +5,7 @@ export const location: Location[] = [
     name: "Setrasari",
     link: "https://www.google.com/maps/search/?api=1&query=Jl.+Setrasari+Indah+No.2+Bandung",
     address:
-      "On second floor, Jl. Setrasari Indah No.2 lantai 2, Sukarasa, Kec. Sukasari, Kota Bandung, Jawa Barat 40152",
+      "Jl. Setrasari Indah No.2 lantai 2, Sukarasa, Kec. Sukasari, Kota Bandung, Jawa Barat 40152",
   },
   {
     name: "Lengkong",

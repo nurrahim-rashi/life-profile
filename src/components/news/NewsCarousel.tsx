@@ -1,5 +1,12 @@
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "../ui/carousel";
+
 import NewsCarouselItem from "./NewsCarouselItem";
-import NewsCarouselNav from "./NewsCarouselNav";
 
 const slides = [
   {
@@ -34,14 +41,19 @@ const slides = [
 
 export default function NewsCarousel() {
   return (
-    <>
-      <div className="carousel w-full rounded-3xl overflow-hidden shadow-lg">
-        {slides.map((slide) => (
-          <NewsCarouselItem key={slide.id} {...slide} />
-        ))}
-      </div>
+    <div className="relative w-full">
+      <Carousel className="w-full">
+        <CarouselContent>
+          {slides.map((slide) => (
+            <CarouselItem key={slide.id}>
+              <NewsCarouselItem {...slide} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
 
-      <NewsCarouselNav />
-    </>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+    </div>
   );
 }

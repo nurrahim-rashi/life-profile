@@ -1,5 +1,12 @@
 import { MapPin } from "lucide-react";
 import type { Location } from "../../types/location";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 
 type Props = {
   location: Location;
@@ -7,32 +14,29 @@ type Props = {
 
 export default function LocationCard({ location }: Props) {
   return (
-    <div className="p-8 rounded-3xl bg-zinc-50 hover:bg-zinc-100 transition group">
-      <div className="flex items-center gap-2 mb-3">
-        <MapPin className="w-5 h-5 text-zinc-500 group-hover:text-green-500 transition" />
+    <Card className="group transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+      <CardHeader>
+        <div className="flex items-center gap-2">
+          <MapPin className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-accent" />
 
-        <h3 className="font-semibold">{location.name}</h3>
-      </div>
+          <CardTitle>{location.name}</CardTitle>
+        </div>
+      </CardHeader>
 
-      <p className="text-zinc-600">{location.address}</p>
+      <CardContent>
+        <p className="leading-relaxed text-muted-foreground">
+          {location.address}
+        </p>
+      </CardContent>
 
-      <button
-        onClick={() => window.open(location.link, "_blank")}
-        className="
-          mt-6
-          bg-black
-          text-white
-          px-6
-          py-3
-          rounded-full
-          font-medium
-          transition-all
-          hover:bg-green-800
-          hover:-translate-y-0.5
-        "
-      >
-        Get Directions
-      </button>
-    </div>
+      <CardFooter>
+        <button
+          onClick={() => window.open(location.link, "_blank")}
+          className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent/90"
+        >
+          Get Directions
+        </button>
+      </CardFooter>
+    </Card>
   );
 }

@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="max-w-[1600px] mx-auto">
+      <main className="max-w-[1600px] mx-auto pt-20">
         <AppRoutes />
       </main>
       <Footer />

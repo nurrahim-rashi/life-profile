@@ -5,20 +5,14 @@ type Props = {
   description: string;
 };
 
-export default function NewsCarouselItem({
-  id,
-  image,
-  title,
-  description,
-}: Props) {
+export default function NewsCarouselItem({ image, title, description }: Props) {
   return (
-    <div id={id} className="carousel-item w-full relative">
-      <img src={image} className="w-full object-cover h-[500px]" />
+    <div className="relative h-[400px] w-full overflow-hidden rounded-3xl">
+      <img src={image} className="h-full w-full object-cover" />
 
-      <div className="absolute bottom-0 left-0 right-0 bg-black/40 text-white p-8">
-        <h2 className="text-3xl font-bold">{title}</h2>
-
-        <p className="mt-2 text-sm text-white/80">{description}</p>
+      <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-6 text-white">
+        <h2 className="text-xl font-bold">{title}</h2>
+        <p className="text-sm opacity-90">{description}</p>
       </div>
     </div>
   );

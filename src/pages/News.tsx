@@ -12,9 +12,13 @@ export default function News() {
           News
         </h1>
 
-        <NewsCarousel />
-
-        <NewsList news={news} loading={loading} />
+        <div className="flex flex-col gap-12">
+          <NewsCarousel />
+          <h2 className="text-3xl font-semibold mt-8 text-center text-zinc-800">
+            Our Community Stories
+          </h2>
+          <NewsList news={news} loading={loading} />
+        </div>
       </div>
     </section>
   );
