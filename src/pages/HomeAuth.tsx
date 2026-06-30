@@ -19,9 +19,10 @@ export default function HomeAuth() {
   const [thumbnail, setThumbnail] = useState("");
   const [content, setContent] = useState("");
 
-  const [open, setOpen] = useState(false);
+  // kalau belum dipakai UI, aman dihapus aja biar TS gak rewel
+  // nanti kalau mau modal tinggal hidupin lagi
+  // const [open, setOpen] = useState(false);
 
-  // ================= USER =================
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -35,7 +36,6 @@ export default function HomeAuth() {
     fetchUser();
   }, []);
 
-  // ================= CREATE NEWS =================
   const handleCreateNews = async () => {
     if (!user?.userId) return;
 
@@ -48,22 +48,16 @@ export default function HomeAuth() {
 
     await refreshNews();
 
-    // reset form
     setTitle("");
     setThumbnail("");
     setContent("");
-
-    // close modal
-    setOpen(false);
   };
 
   return (
     <section className="min-h-screen bg-[#fafafa]">
       <div className="max-w-6xl mx-auto px-6 py-12">
-        {/* UPCOMING */}
         <UpcomingClasses />
 
-        {/* POST BOX */}
         <PostBox
           user={user}
           title={title}
@@ -75,7 +69,6 @@ export default function HomeAuth() {
           onSubmit={handleCreateNews}
         />
 
-        {/* NEWS LIST */}
         <NewsList news={news} loading={loading} />
       </div>
     </section>
