@@ -6,7 +6,7 @@ const VisionCard: React.FC = () => {
       <div className="container mx-auto px-6 grid md:grid-cols-12 gap-12 items-start">
         {/* LEFT STICKY */}
         <div className="md:col-span-4 md:sticky md:top-32">
-          <p className="text-xs tracking-[0.3em] text-terracotta mb-6">
+          <p className="uppercase text-xs tracking-[0.3em] text-terracotta mb-6">
             Core's Vision.
           </p>
           <h2 className="text-4xl md:text-6xl font-serif text-zinc-800 leading-tight">
