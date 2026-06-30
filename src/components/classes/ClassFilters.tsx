@@ -29,7 +29,7 @@ export default function ClassFilters({
 }: Props) {
   const [calendarOpen, setCalendarOpen] = React.useState(false);
 
-  const branches = ["Setrasari", "Lengkong", "Soekarno Hatta"];
+  const branches = ["Lembayung", "Gelora", "Arum"];
   const types = ["Reformer", "Chair", "Tower", "Mat", "Flexband"];
 
   const parsedDate = React.useMemo(() => {

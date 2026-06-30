@@ -29,7 +29,7 @@ export default function StorySection() {
 
         {/* LEAD TEXT */}
         <p className="text-zinc-700 leading-8 text-base">
-          Life Pilates was founded with a simple mission: to create a welcoming
+          Core Pilates was founded with a simple mission: to create a welcoming
           space where movement becomes a path to strength, confidence, and
           overall well-being.
         </p>
