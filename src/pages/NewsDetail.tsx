@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import type { NewsItem } from "../types/newsItem";
 import { useNews } from "../hooks/useNews";
 import NewsNavigator from "../components/news/NewsNavigator";
-import { Breadcrumb } from "../components/ui/breadcrumb";
 
 function Skeleton() {
   return (
@@ -56,9 +55,6 @@ export default function NewsDetail() {
           className="w-full h-full object-cover"
         />
       </div>
-
-      {/* CONTENT */}
-      <Breadcrumb />
 
       {/* CONTENT */}
       <div className="max-w-3xl mx-auto px-6 py-16">

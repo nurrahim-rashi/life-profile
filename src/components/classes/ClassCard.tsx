@@ -15,7 +15,7 @@ export default function ClassCard({ item, onBook }: Props) {
   const [memberCode, setMemberCode] = useState("");
 
   const handleConfirm = () => {
-    onBook(item); // ✅ FIX: now prop is used (no TS6133 error)
+    onBook(item); //
     alert(`Booked ${item.type} at ${item.branch}`);
     setOpen(false);
   };

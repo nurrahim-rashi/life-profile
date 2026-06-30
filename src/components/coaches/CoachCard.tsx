@@ -25,9 +25,7 @@ export default function CoachCard({ coach, index }: Props) {
           {coach.name.first} {coach.name.last}
         </h2>
 
-        <p className="text-green-700 font-medium mt-1">
-          {roles[index % roles.length]}
-        </p>
+        <p className="text-zinc-500 mt-1">{roles[index % roles.length]}</p>
       </div>
     </div>
   );
