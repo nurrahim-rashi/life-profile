@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { NewsItem } from "../../types/newsItem";
 
 type Props = {
@@ -7,7 +8,6 @@ type Props = {
 };
 
 export default function NewsNavigator({ news = [], currentId }: Props) {
-  // safety guard biar gak crash
   if (!Array.isArray(news) || news.length === 0) return null;
 
   const index = news.findIndex((n) => n.objectId === currentId);
@@ -18,15 +18,19 @@ export default function NewsNavigator({ news = [], currentId }: Props) {
   const next = index < news.length - 1 ? news[index + 1] : null;
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-zinc-200">
+    <div className="mx-auto grid max-w-3xl grid-cols-1 gap-6 md:grid-cols-2">
       {/* PREVIOUS */}
       {prev ? (
         <Link
           to={`/news/${prev.objectId}`}
-          className="group p-4 rounded-2xl border border-zinc-200 hover:shadow-md transition"
+          className="group rounded-2xl border border-zinc-200 p-4 transition hover:shadow-md"
         >
-          <p className="text-xs text-zinc-500 mb-2">Previous</p>
-          <p className="font-medium text-zinc-800 group-hover:text-terracotta">
+          <div className="mb-3 flex items-center gap-2 text-zinc-500">
+            <ArrowLeft className="h-4 w-4 transition group-hover:-translate-x-1" />
+            <span className="text-xs uppercase tracking-wide">Previous</span>
+          </div>
+
+          <p className="font-medium text-zinc-800 transition group-hover:text-terracotta">
             {prev.title}
           </p>
         </Link>
@@ -38,10 +42,14 @@ export default function NewsNavigator({ news = [], currentId }: Props) {
       {next ? (
         <Link
           to={`/news/${next.objectId}`}
-          className="group p-4 rounded-2xl border border-zinc-200 hover:shadow-md transition text-right"
+          className="group rounded-2xl border border-zinc-200 p-4 text-right transition hover:shadow-md"
         >
-          <p className="text-xs text-zinc-500 mb-2">Next</p>
-          <p className="font-medium text-zinc-800 group-hover:text-terracotta">
+          <div className="mb-3 flex items-center justify-end gap-2 text-zinc-500">
+            <span className="text-xs uppercase tracking-wide">Next</span>
+            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+          </div>
+
+          <p className="font-medium text-zinc-800 transition group-hover:text-terracotta">
             {next.title}
           </p>
         </Link>

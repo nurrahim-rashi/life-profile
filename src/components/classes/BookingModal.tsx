@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import type { Class } from "../../types/class";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";

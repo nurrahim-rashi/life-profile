@@ -35,8 +35,7 @@ export default function ClassPopularityChart() {
             tickMargin={10}
           />
 
-          {/* Tooltip Lovable version */}
-          <Tooltip content={<ChartTooltipContent indicator="dot" />} />
+          <Tooltip content={<ChartTooltipContent />} />
 
           <Bar
             dataKey="bookings"

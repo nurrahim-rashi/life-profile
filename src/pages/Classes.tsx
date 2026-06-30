@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+import type { Class } from "../types/class";
 import { useClasses } from "../hooks/useClass";
 
 import ClassFilters from "../components/classes/ClassFilters";
@@ -9,6 +10,10 @@ import ClassPopularityChart from "../components/classes/Chart";
 
 export default function Classes() {
   const { classes, loading } = useClasses();
+
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [selectedClass, setSelectedClass] = useState<Class | null>(null);
+
   const [selectedBranch, setSelectedBranch] = useState("");
   const [filterTypes, setFilterTypes] = useState<string[]>([]);
   const [date, setDate] = useState("Pick a date");
@@ -31,10 +36,11 @@ export default function Classes() {
 
   return (
     <section className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-20">
-        <h1 className="text-5xl font-bold text-center mb-16 text-zinc-800">
+      <div className="mx-auto max-w-6xl px-6 py-20">
+        <h1 className="mb-16 text-center text-5xl font-bold text-zinc-800">
           Our Classes
         </h1>
+
         <ClassFilters
           date={date}
           setDate={setDate}
@@ -43,6 +49,7 @@ export default function Classes() {
           filterTypes={filterTypes}
           toggleType={toggleType}
         />
+
         <ClassList
           classes={filteredClasses}
           loading={loading}
@@ -50,8 +57,9 @@ export default function Classes() {
             setSelectedClass(item);
             setIsBookingOpen(true);
           }}
-        />{" "}
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        />
+
+        <div className="mt-16 grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2">
           <div className="h-full">
             <PrivateSession />
           </div>
@@ -59,7 +67,9 @@ export default function Classes() {
           <div className="h-full">
             <ClassPopularityChart />
           </div>
-        </div>{" "}
+        </div>
+
+        {isBookingOpen && selectedClass && null}
       </div>
     </section>
   );

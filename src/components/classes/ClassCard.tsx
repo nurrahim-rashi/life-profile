@@ -1,8 +1,7 @@
-import * as React from "react";
+import { useState } from "react";
 import type { Class } from "../../types/class";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 type Props = {
@@ -11,11 +10,12 @@ type Props = {
 };
 
 export default function ClassCard({ item, onBook }: Props) {
-  const [open, setOpen] = React.useState(false);
-  const [isMember, setIsMember] = React.useState(true);
-  const [memberCode, setMemberCode] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [isMember, setIsMember] = useState(true);
+  const [memberCode, setMemberCode] = useState("");
 
   const handleConfirm = () => {
+    onBook(item); // ✅ FIX: now prop is used (no TS6133 error)
     alert(`Booked ${item.type} at ${item.branch}`);
     setOpen(false);
   };
@@ -24,7 +24,7 @@ export default function ClassCard({ item, onBook }: Props) {
     <li className="flex items-center justify-between gap-4 border-b border-zinc-200 bg-white px-4 py-3 hover:bg-zinc-50 transition">
       {/* LEFT ICON */}
       <div className="size-9 flex items-center justify-center bg-zinc-100 text-zinc-700 font-semibold text-xs">
-        {item.type[0]}
+        {item.type?.[0]}
       </div>
 
       {/* CONTENT */}
@@ -46,7 +46,7 @@ export default function ClassCard({ item, onBook }: Props) {
         </div>
       </div>
 
-      {/* ACTION → ONLY THIS CHANGED */}
+      {/* ACTION */}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <button className="bg-black text-white px-6 py-2 rounded-full text-sm">
